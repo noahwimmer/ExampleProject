@@ -151,7 +151,7 @@ node_t* linked_list_get_index(linked_list_t* list, size_t index) {
   }
   
     node_t* cur = list->head;
-    int count = 0;
+    size_t count = 0;
     while(count < index) {
       cur = cur->next;
     }
