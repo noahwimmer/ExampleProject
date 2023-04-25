@@ -13,7 +13,7 @@ linked_list_t* linked_list_create();
 /**
  * Destroys the linked list, along with all of its data
  */
-int linked_list_destroy(linked_list_t* list);
+int linked_list_destroy(linked_list_t** list);
 
 // adds at end
 int linked_list_add(linked_list_t* list, node_t* node);

@@ -5,7 +5,7 @@
 linked_list_t* linked_list_create() {
   linked_list_t* list = malloc(sizeof(linked_list_t));
   if(!list) {
-    fprintf(stderr, "Could not allocate resources for linked list. Returning NULL...\n");
+    fprintf(stderr, "Error: Could not allocate resources for linked list. Returning NULL...\n");
     return NULL;
   }
 
@@ -15,17 +15,19 @@ linked_list_t* linked_list_create() {
   return list;
 }
 
-int linked_list_destroy(linked_list_t* list) {
+int linked_list_destroy(linked_list_t** list) {
   if(!list) {
     fprintf(stderr, "Error: List pointer is NULL.\n");
     return -1;
   }
 
-  while(list->size > 0) {
-    linked_list_remove_index(list, 0);
+  while((*list)->size > 0) {
+    linked_list_remove_index(*list, 0);
   }
 
-  free(list);
+  free(*list);
+
+  *list = NULL;
 
   return 0;
 }
@@ -44,12 +46,14 @@ int linked_list_add(linked_list_t* list, node_t* node) {
   
   if(list->size == 0) {
     list->head = node;
+    list->size++;
     return 0;
   }
   
   node_t* end = linked_list_peek_back(list);
   end->next = node;
-  
+  list->size++;
+
   return 0;
 }
 
@@ -66,20 +70,20 @@ int linked_list_add_index(linked_list_t* list, node_t* node, size_t index) {
   }
   
   if(index > list->size) {
-    if(index > list->size) {
-      fprintf(stderr, "Error: index [%zu] is out of range for linked list size [%zu]. Returning -1...\n", index, list->size);
-      return -1;
-    }
+    fprintf(stderr, "Error: index [%zu] is out of range for linked list size [%zu]. Returning -1...\n", index, list->size);
+    return -1;
   }
   
   if(index == 0) {
     node->next = list->head;
     list->head = node;
+    list->size++;
     return 0;
   } else {
     node_t* prev = linked_list_get_index(list, index-1);
     node->next = prev->next;
     prev->next = node;
+    list->size++;
     return 0;
   }
 }
