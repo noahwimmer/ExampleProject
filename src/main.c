@@ -13,7 +13,7 @@ void linked_list_print(linked_list_t* list) {
 
 int main() {
   int a = 2;
-  int b = 3;
+  int b = 4;
   
   linked_list_t* list = linked_list_create();
   node_t* node = node_create();
